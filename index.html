@@ -1,12 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Bella Italia - Digitale Speisekarte</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍴</text></svg>">
+    <title>Bella Vista - Speisekarte</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%232c5530' d='M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z'/></svg>" type="image/svg+xml">
     <style>
-        /* CSS bleibt identisch wie vorher */
         * {
             margin: 0;
             padding: 0;
@@ -50,84 +50,72 @@
             font-weight: bold;
         }
 
+        .delivery-banner {
+            margin-top: 8px;
+            font-size: 0.9em;
+            color: #27ae60;
+            font-weight: bold;
+            background: #e8f5e8;
+            padding: 5px 15px;
+            border-radius: 15px;
+            display: inline-block;
+            border: 1px solid #27ae60;
+        }
+
         .controls {
             display: flex;
-            justify-content: space-between;
+            gap: 15px;
             margin-bottom: 20px;
             flex-wrap: wrap;
-            gap: 10px;
+            align-items: center;
         }
 
-        .filter-buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            padding: 8px 16px;
-            border: 2px solid #2c5530;
-            background: white;
-            color: #2c5530;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .filter-btn.active,
-        .filter-btn:hover {
-            background: #2c5530;
-            color: white;
-        }
-
-        .cart-btn {
-            padding: 8px 16px;
-            background: white;
-            color: #2c5530;
-            border: 2px solid #2c5530;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
+        .control-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-weight: bold;
-        }
-        
-        .cart-btn:hover {
-            background: #2c5530;
-            color: white;
-        }
-
-        .menu-categories {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            overflow-x: auto;
-            padding: 10px 0;
-        }
-
-        .category-btn {
-            padding: 10px 20px;
+            padding: 10px 15px;
             background: white;
-            border: none;
-            border-radius: 25px;
+            border: 2px solid #2c5530;
+            border-radius: 8px;
+            font-size: 14px;
             cursor: pointer;
-            white-space: nowrap;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             transition: all 0.3s;
+            flex: 1;
+            min-width: 120px;
         }
 
-        .category-btn.active {
-            background: #2c5530;
-            color: white;
+        .control-item select, .control-item input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 100%;
+            font-size: 14px;
+            cursor: pointer;
         }
 
-        .category-btn:hover {
+        .control-item:hover {
+            background: #f0f7f0;
+        }
+
+        .cart-control {
+            background: white;
+            border: 2px solid #2c5530;
+            border-radius: 8px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            min-width: 140px;
+            justify-content: center;
+        }
+
+        .cart-control:hover {
             background: #2c5530;
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
 
         .menu-grid {
@@ -146,26 +134,6 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: relative;
         }
-        
-        .admin-controls-item {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            display: flex;
-            gap: 5px;
-            z-index: 10;
-        }
-
-        .admin-edit-btn, .admin-delete-btn {
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.8em;
-        }
-
-        .admin-edit-btn { background: #f39c12; color: white; }
-        .admin-delete-btn { background: #e74c3c; color: white; }
 
         .menu-item:hover {
             transform: translateY(-5px);
@@ -191,7 +159,6 @@
             justify-content: center;
             font-weight: bold;
             font-size: 0.9em;
-            z-index: 5;
         }
 
         .price {
@@ -207,10 +174,25 @@
             font-size: 0.9em;
         }
 
+        .menu-item .ingredients-label {
+            font-weight: bold;
+            color: #2c5530;
+            margin: 8px 0 5px 0;
+            font-size: 0.9em;
+        }
+
+        .menu-item .ingredients {
+            color: #666;
+            font-size: 0.85em;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
         .tags {
             display: flex;
             gap: 5px;
             flex-wrap: wrap;
+            margin-bottom: 10px;
         }
 
         .tag {
@@ -224,10 +206,20 @@
         .tag.vegetarisch { background: #d1ecf1; color: #0c5460; }
         .tag.scharf { background: #f8d7da; color: #721c24; }
         .tag.ohne-Schweinefleisch { background: #d4edda; color: #155724; }
+        .tag.vegan { background: #e8f6f3; color: #0b5345; }
+        .tag.laktosefrei { background: #fef9e7; color: #7d6608; }
 
         .tag:hover {
             transform: translateY(-1px);
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .cart-indicator {
+            background: #d4edda;
+            color: #155724;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
         }
 
         .popup {
@@ -276,12 +268,25 @@
             justify-content: center;
             color: #666;
             overflow: hidden;
+            position: relative;
         }
         
         .popup-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        .photo-type-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            font-weight: bold;
         }
 
         .size-selection {
@@ -378,6 +383,42 @@
             background: #27ae60;
         }
 
+        .allergens-section {
+            margin: 20px 0 0 0;
+            padding: 15px 0 0 0;
+            border-top: 2px solid #e9ecef;
+        }
+
+        .allergens-section h4 {
+            color: #2c5530;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+
+        .allergen-item {
+            padding: 3px 0;
+            color: #666;
+            font-size: 0.85em;
+        }
+
+        .additives-section {
+            margin: 15px 0 0 0;
+            padding: 15px 0 0 0;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .additives-section h4 {
+            color: #2c5530;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+
+        .additive-item {
+            padding: 3px 0;
+            color: #666;
+            font-size: 0.85em;
+        }
+
         .cart-view {
             display: none;
         }
@@ -420,6 +461,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             position: relative;
+            gap: 15px;
         }
 
         .cart-item-info {
@@ -442,22 +484,33 @@
         .cart-item-price {
             color: #e74c3c;
             font-weight: bold;
+            font-size: 1.1em;
+            min-width: 80px;
+            text-align: right;
+            margin-right: 15px;
         }
 
         .cart-item-controls {
             display: flex;
             align-items: center;
             gap: 10px;
+            min-width: 120px;
+            justify-content: flex-end;
         }
 
         .quantity-btn {
-            padding: 5px 10px;
+            padding: 8px 12px;
             background: #3498db;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
+            min-width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .quantity-btn.remove {
@@ -468,6 +521,7 @@
             font-weight: bold;
             min-width: 30px;
             text-align: center;
+            font-size: 1.1em;
         }
 
         .cart-item-number {
@@ -512,155 +566,6 @@
             font-size: 0.9em;
         }
 
-        .tags-checkbox-group {
-            margin: 15px 0;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border: 1px solid #e9ecef;
-        }
-
-        .tags-checkbox-group h4 {
-            margin-bottom: 10px;
-            color: #2c5530;
-        }
-
-        .checkbox-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-
-        .checkbox-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-
-        .checkbox-item label {
-            cursor: pointer;
-            font-weight: normal;
-            margin: 0;
-        }
-
-        .selected-tags-display {
-            margin: 10px 0;
-            padding: 10px;
-            background: #e8f5e8;
-            border-radius: 5px;
-            border-left: 4px solid #27ae60;
-        }
-
-        .selected-tags-display span {
-            display: inline-block;
-            margin: 2px 5px;
-            padding: 2px 8px;
-            background: #27ae60;
-            color: white;
-            border-radius: 10px;
-            font-size: 0.8em;
-        }
-        
-        #adminArea {
-            background: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-            border-left: 5px solid #3498db;
-            display: none;
-        }
-
-        #adminArea h2 {
-            color: #3498db;
-            margin-bottom: 20px;
-        }
-
-        .admin-form-group {
-            margin-bottom: 15px;
-        }
-
-        .admin-form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .admin-form-group input[type="text"],
-        .admin-form-group input[type="file"],
-        .admin-form-group input[type="number"],
-        .admin-form-group select,
-        .admin-form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1em;
-        }
-
-        .admin-form-group textarea {
-            resize: vertical;
-        }
-        
-        #imagePreview {
-            width: 100%;
-            height: 150px;
-            background: #f0f0f0;
-            border: 1px dashed #ccc;
-            margin-top: 10px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            overflow: hidden;
-            border-radius: 5px;
-        }
-        
-        #imagePreview img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .admin-action-btn {
-            padding: 10px 20px;
-            background: #2ecc71;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            margin-top: 10px;
-            margin-right: 10px;
-            transition: background 0.3s;
-        }
-        
-        .admin-action-btn.logout {
-            background: #e74c3c;
-        }
-        
-        .admin-action-btn.logout:hover {
-            background: #c0392b;
-        }
-        
-        .admin-action-btn:hover {
-            background: #27ae60;
-        }
-
-        .admin-separator {
-            border-top: 1px solid #eee;
-            margin: 20px 0;
-        }
-
         footer {
             background: #2c5530;
             color: white;
@@ -694,6 +599,32 @@
             border-top: 1px solid rgba(255,255,255,0.1);
         }
 
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: #2c5530;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .scroll-to-top:hover {
+            background: #1e3a23;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
         @media (max-width: 768px) {
             .menu-grid {
                 grid-template-columns: 1fr;
@@ -703,14 +634,14 @@
                 flex-direction: column;
             }
             
-            .filter-buttons {
-                justify-content: center;
+            .control-item, .cart-control {
+                width: 100%;
             }
 
             .cart-item {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 10px;
+                gap: 15px;
             }
 
             .cart-item-controls {
@@ -718,9 +649,9 @@
                 justify-content: space-between;
             }
 
-            .checkbox-row {
-                flex-direction: column;
-                gap: 10px;
+            .cart-item-price {
+                text-align: left;
+                margin-right: 0;
             }
 
             .footer-content {
@@ -735,94 +666,21 @@
             .size-option {
                 padding: 10px 12px;
             }
+
+            .scroll-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
         }
 
-        .category-admin-list {
-            margin-top: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .category-admin-item {
-            display:flex;
-            gap:8px;
-            align-items:center;
-            justify-content:space-between;
-            background:#fafafa;
-            padding:8px;
-            border-radius:6px;
-            border:1px solid #eee;
-        }
-        .category-admin-item .left {
-            display:flex;
-            gap:8px;
-            align-items:center;
-        }
-        .category-admin-item button {
-            padding:6px 10px;
-            border-radius:6px;
-            border:none;
-            cursor:pointer;
-        }
-        .category-edit-btn { background:#f39c12; color:white; }
-        .category-delete-btn { background:#e74c3c; color:white; }
-        .category-move-btn { 
-            background: #3498db; 
-            color: white; 
-            padding: 6px 8px;
-        }
-        .category-move-btn:disabled {
-            background: #bdc3c7;
-            cursor: not-allowed;
-        }
-
-        .sizes-admin-section {
-            margin: 20px 0;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border: 1px solid #e9ecef;
-        }
-
-        .size-admin-item {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin-bottom: 10px;
-            padding: 10px;
-            background: white;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-
-        .size-admin-item input {
-            flex: 1;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .size-admin-item .size-price {
-            width: 100px;
-        }
-
-        .remove-size-btn {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 8px 12px;
-            cursor: pointer;
-        }
-
-        .add-size-btn {
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 8px 12px;
-            cursor: pointer;
-            margin-top: 10px;
+        .no-items {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 1.1em;
         }
 
         .confirmation-popup {
@@ -864,12 +722,12 @@
             transition: all 0.3s;
         }
 
-        .confirm-yes {
+        .confirm-ok {
             background: #27ae60;
             color: white;
         }
 
-        .confirm-yes:hover {
+        .confirm-ok:hover {
             background: #219a52;
         }
 
@@ -884,173 +742,48 @@
     </style>
 </head>
 <body>
+    <button class="scroll-to-top" id="scrollToTopBtn" title="Nach oben scrollen">↑</button>
+
     <div class="container">
         <header>
-            <h1 id="restaurantName">🍝 Restaurant Bella Italia</h1>
+            <h1 id="restaurantName">🍝 Bella Vista</h1>
             <p>Willkommen zu unserer digitalen Speisekarte</p>
-            <div class="header-phone" id="headerPhone">📞 0123-4567890</div>
+            <div class="header-phone" id="headerPhone">📞 02327 303687</div>
+            <div class="delivery-banner">🚗 Lieferung möglich</div>
         </header>
-        
-        <div id="adminArea">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <h2>Admin-Bereich 🔒</h2>
-                <button type="button" class="admin-action-btn logout" id="adminLogoutBtn">Admin Logout</button>
+
+        <div class="controls" id="mainControls">
+            <div class="control-item">
+                <span>📋</span>
+                <select id="categoryFilter">
+                    <option value="all">Alle Kategorien</option>
+                    <option value="pizza">Pizza</option>
+                    <option value="nudeln">Nudeln</option>
+                    <option value="salate">Salate</option>
+                    <option value="gyros">Gyros</option>
+                </select>
             </div>
-            <p>Drücken Sie <code>Strg + Alt + A</code> (oder <code>Cmd + Alt + A</code> auf Mac), um den Admin-Bereich zu öffnen.</p>
-            
-            <form id="menuItemForm">
-                <h3>Menüpunkt hinzufügen/bearbeiten</h3>
-                <input type="hidden" id="mealIdInput" value="">
-                
-                <div class="admin-form-group">
-                    <label for="mealNumber">Nummerierung (optional, z.B. 1, 2, 3...)</label>
-                    <input type="number" id="mealNumber" min="0" step="1" placeholder="Automatisch wenn leer">
-                </div>
-
-                <div class="admin-form-group">
-                    <label for="mealName">Name des Gerichts</label>
-                    <input type="text" id="mealName" required>
-                </div>
-                
-                <div class="admin-form-group">
-                    <label for="mealCategory">Kategorie</label>
-                    <select id="mealCategory" required>
-                        <!-- Wird dynamisch gefüllt -->
-                    </select>
-                </div>
-                
-                <div class="sizes-admin-section">
-                    <h4>Größen und Preise</h4>
-                    <p>Für Gerichte ohne Größen einfach leer lassen.</p>
-                    <div id="sizesContainer">
-                        <!-- Größen werden hier dynamisch eingefügt -->
-                    </div>
-                    <button type="button" class="add-size-btn" id="addSizeBtn">+ Größe hinzufügen</button>
-                </div>
-
-                <div class="admin-form-group" id="singlePriceGroup">
-                    <label for="mealPrice">Preis (€) - nur wenn keine Größen</label>
-                    <input type="number" id="mealPrice" step="0.01" placeholder="0.00">
-                </div>
-                
-                <div class="admin-form-group">
-                    <label for="mealDescription">Beschreibung</label>
-                    <textarea id="mealDescription" rows="3" required></textarea>
-                </div>
-                
-                <div class="tags-checkbox-group">
-                    <h4>Tags auswählen</h4>
-                    <div class="checkbox-row">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="tagVegetarisch" name="tags" value="vegetarisch">
-                            <label for="tagVegetarisch">Vegetarisch</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="tagScharf" name="tags" value="scharf">
-                            <label for="tagScharf">Scharf</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="tagOhneSchweinefleisch" name="tags" value="ohne-Schweinefleisch">
-                            <label for="tagOhneSchweinefleisch">Ohne Schweinefleisch</label>
-                        </div>
-                    </div>
-                    <div id="selectedTagsDisplay" class="selected-tags-display" style="display: none;">
-                        <strong>Ausgewählte Tags:</strong>
-                    </div>
-                </div>
-                
-                <div class="admin-form-group">
-                    <label for="mealIngredients">Zutaten (durch Komma trennen)</label>
-                    <input type="text" id="mealIngredients" placeholder="Baguette,Tomaten,Basilikum">
-                </div>
-
-                <div class="admin-form-group">
-                    <label for="mealImageFile">Bilddatei hochladen (wird automatisch verkleinert)</label>
-                    <input type="file" id="mealImageFile" accept="image/jpeg, image/png">
-                    <div id="imagePreview">Bildvorschau</div>
-                </div>
-                
-                <button type="submit" class="admin-action-btn" id="saveMealBtn">Menüpunkt speichern</button>
-                <button type="button" class="admin-action-btn" id="resetFormBtn" style="background:#e67e22;">Formular zurücksetzen</button>
-                
-            </form>
-            
-            <div class="admin-separator"></div>
-
-            <h3>Aktuelle Gerichte (bearbeiten durch Klick im Menü)</h3>
-            <p>Klicken Sie auf ein Gericht unten in der Speisekarte, um es im Bearbeitungsformular zu laden.</p>
-
-            <div class="admin-separator"></div>
-
-            <h3>Kategorien verwalten</h3>
-            <form id="categoryAdminForm" style="margin-bottom:10px;">
-                <div class="admin-form-group">
-                    <label for="newCategoryInput">Neue Kategorie hinzufügen</label>
-                    <input type="text" id="newCategoryInput" placeholder="z. B. vorspeisen, suppen..." required>
-                </div>
-                <button type="submit" class="admin-action-btn">Kategorie hinzufügen</button>
-            </form>
-
-            <div id="categoryAdminList" class="category-admin-list"></div>
-
-            <div class="admin-separator"></div>
-
-            <h3>Restaurant Informationen</h3>
-            <form id="restaurantInfoForm">
-                <div class="admin-form-group">
-                    <label for="restaurantNameInput">Restaurant Name</label>
-                    <input type="text" id="restaurantNameInput" placeholder="Restaurant Bella Italia">
-                </div>
-                
-                <div class="admin-form-group">
-                    <label for="restaurantPhoneInput">Telefonnummer</label>
-                    <input type="text" id="restaurantPhoneInput" placeholder="0123-4567890">
-                </div>
-                
-                <div class="admin-form-group">
-                    <label for="restaurantAddressInput">Straße und Hausnummer</label>
-                    <input type="text" id="restaurantAddressInput" placeholder="Musterstraße 123">
-                </div>
-                
-                <div class="admin-form-group">
-                    <label for="restaurantZipInput">PLZ</label>
-                    <input type="text" id="restaurantZipInput" placeholder="12345">
-                </div>
-                
-                <div class="admin-form-group">
-                    <label for="restaurantCityInput">Stadt</label>
-                    <input type="text" id="restaurantCityInput" placeholder="Musterstadt">
-                </div>
-                
-                <div class="admin-form-group">
-                    <label for="restaurantHoursInput">Öffnungszeiten</label>
-                    <textarea id="restaurantHoursInput" rows="3" placeholder="Mo-Fr: 11:00-22:00&#10;Sa-So: 12:00-23:00"></textarea>
-                </div>
-                
-                <button type="submit" class="admin-action-btn">Informationen speichern</button>
-            </form>
-
-        </div>
-        
-        <div class="controls">
-            <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all">Alle</button>
-                <button class="filter-btn" data-filter="vegetarisch">Vegetarisch</button>
-                <button class="filter-btn" data-filter="scharf">Scharf</button>
-                <button class="filter-btn" data-filter="ohne-Schweinefleisch">Ohne Schweinefleisch</button>
+            <div class="control-item">
+                <span>⭐</span>
+                <select id="specialWishesFilter">
+                    <option value="all">Alle Sonderwünsche</option>
+                    <option value="vegetarisch">Vegetarisch</option>
+                    <option value="scharf">Scharf</option>
+                </select>
             </div>
-            <button class="cart-btn" id="showCart">
-                🛒 Warenkorb
-            </button>
-        </div>
-
-        <div class="menu-categories" id="menuCategoriesContainer">
-            <!-- Kategorien werden dynamisch gerendert -->
+            <div class="control-item">
+                <span>🔍</span>
+                <input type="text" id="searchInput" placeholder="Gerichte suchen...">
+            </div>
+            <div class="cart-control" id="showCart">
+                <span>🛒</span>
+                <span>Warenkorb (<span id="cartCount">0</span>)</span>
+            </div>
         </div>
 
         <div class="menu-view" id="menuView">
             <div class="menu-grid" id="menuGrid">
-                <!-- Menüpunkte werden hier angezeigt -->
+                <!-- Menüpunkte werden hier dynamisch eingefügt -->
             </div>
         </div>
 
@@ -1067,39 +800,42 @@
                 </div>
             </div>
             
-            <a href="tel:+491234567890" class="phone-btn" id="cartPhoneBtn">📞 Jetzt anrufen & bestellen: 0123-4567890</a>
-            <div class="phone-info">Rufen Sie uns an um Ihre Bestellung aufzugeben</div>
+            <a href="tel:02327303687" class="phone-btn" id="cartPhoneBtn">📞 Jetzt anrufen & bestellen: 02327 303687</a>
+            <div class="phone-info">Beim Klick auf den Button werden Sie verbunden</div>
         </div>
     </div>
 
     <footer id="restaurantFooter">
         <div class="footer-content">
             <div class="footer-section">
-                <h3 id="footerRestaurantName">Restaurant Bella Italia</h3>
-                <p id="footerAddress">Musterstraße 123</p>
-                <p id="footerZipCity">12345 Musterstadt</p>
+                <h3 id="footerRestaurantName">Bella Vista</h3>
+                <p id="footerAddress">Weststraße 181</p>
+                <p id="footerZipCity">44866 Bochum Wattenscheid</p>
             </div>
             <div class="footer-section">
                 <h3>Öffnungszeiten</h3>
                 <div id="footerHours">
-                    <p>Mo-Fr: 11:00-22:00</p>
-                    <p>Sa-So: 12:00-23:00</p>
+                    <p>Mo: 11:30 - 14:30 Uhr & 17:00 - 22:30 Uhr</p>
+                    <p>Di - Fr: 11:30 - 22:30 Uhr</p>
+                    <p>Sa, So, Feiertage: 15:00 - 22:30 Uhr</p>
                 </div>
             </div>
             <div class="footer-section">
                 <h3>Kontakt</h3>
-                <p id="footerPhone">📞 0123-4567890</p>
+                <p id="footerPhone">📞 02327 303687</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2024 Restaurant Bella Italia. Alle Rechte vorbehalten.</p>
+            <p>&copy; 2024 Bella Vista. Alle Rechte vorbehalten.</p>
         </div>
     </footer>
 
+    <!-- Popup für Gerichte-Details -->
     <div class="popup" id="mealPopup">
         <div class="popup-content">
             <button class="close-btn" id="closePopup">&times;</button>
             <div class="popup-image" id="popupImage">
+                <!-- Bild wird hier eingefügt -->
             </div>
             <h2 id="popupTitle">Gericht Name</h2>
             
@@ -1111,128 +847,224 @@
             </div>
 
             <div class="price" id="popupPrice">€ 0,00</div>
-            <p class="description" id="popupDescription">Beschreibung des Gerichts...</p>
-            <div class="tags" id="popupTags">
-            </div>
-            <div id="popupIngredients">
-                <h4>Zutaten:</h4>
-                <ul id="ingredientsList">
-                </ul>
-            </div>
+            <p class="description" id="popupDescription" style="display: none;">Beschreibung des Gerichts...</p>
+            
+            <div class="ingredients-label">Zutaten:</div>
+            <p class="ingredients" id="popupIngredients"></p>
+            
+            <div class="tags" id="popupTags"></div>
+            
             <button class="cart-popup-btn" id="cartPopupBtn" disabled>🛒 Bitte Größe wählen</button>
+            
+            <div class="allergens-section" id="allergensSection" style="display: none;">
+                <h4>Allergene</h4>
+                <div class="allergens-content" id="allergensContent">
+                    <!-- Allergene werden hier dynamisch eingefügt -->
+                </div>
+            </div>
+
+            <div class="additives-section" id="additivesSection" style="display: none;">
+                <h4>Zusatzstoffe</h4>
+                <div class="additives-content" id="additivesContent">
+                    <!-- Zusatzstoffe werden hier dynamisch eingefügt -->
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- Bestätigungs-Popup -->
     <div class="confirmation-popup" id="confirmationPopup">
         <div class="confirmation-content">
             <h3 id="confirmationTitle">In den Warenkorb legen?</h3>
             <p id="confirmationText">Möchten Sie dieses Gericht in den Warenkorb legen?</p>
             <div class="confirmation-buttons">
-                <button class="confirm-btn confirm-yes" id="confirmYes">Ja, hinzufügen</button>
+                <button class="confirm-btn confirm-ok" id="confirmOk">OK</button>
                 <button class="confirm-btn confirm-no" id="confirmNo">Abbrechen</button>
             </div>
         </div>
     </div>
 
     <script>
-        // --- KORREKTUR: Leere Startdaten ---
-        const initialMenuData = [];
-
+        // ===== KONFIGURATION =====
+        
         // Restaurant Informationen
-        const defaultRestaurantInfo = {
-            name: "Restaurant Bella Italia",
-            phone: "0123-4567890",
-            address: "Musterstraße 123",
-            zip: "12345",
-            city: "Musterstadt",
-            hours: "Mo-Fr: 11:00-22:00\nSa-So: 12:00-23:00"
+        const restaurantInfo = {
+            name: "Bella Vista",
+            phone: "02327 303687",
+            address: "Weststraße 181",
+            zip: "44866", 
+            city: "Bochum Wattenscheid",
+            hours: "Mo: 11:30 - 14:30 Uhr & 17:00 - 22:30 Uhr\nDi - Fr: 11:30 - 22:30 Uhr\nSa, So, Feiertage: 15:00 - 22:30 Uhr",
+            deliveryAvailable: true
         };
 
-        // Standard-Kategorien
-        const defaultCategories = ['vorspeisen','hauptgerichte','desserts','getraenke'];
+        // Menü Daten
+        const menuData = [
+            {
+                id: 1,
+                number: 1,
+                name: "Pizza Margherita",
+                category: "pizza",
+                sizes: [
+                    { size: "Klein (22 cm)", price: 3.50, description: "22 cm" },
+                    { size: "Groß (28 cm)", price: 6.00, description: "28 cm" }
+                ],
+                ingredients: ["Tomatensauce", "Käse", "Oregano"],
+                tags: ["vegetarisch"],
+                allergens: ["A", "F", "G", "J", "I", "H"],
+                additives: ["2"]
+            },
+            {
+                id: 2,
+                number: 2,
+                name: "Pizza Salami",
+                category: "pizza",
+                sizes: [
+                    { size: "Klein (22 cm)", price: 5.00, description: "22 cm" },
+                    { size: "Groß (28 cm)", price: 7.00, description: "28 cm" }
+                ],
+                ingredients: ["Tomatensauce", "Käse", "Oregano", "Salami"],
+                tags: [],
+                allergens: ["A", "F", "G", "J", "I", "H"],
+                additives: ["1", "2", "3", "12"]
+            },
+            {
+                id: 3,
+                number: 79,
+                name: "Alla Tonno",
+                category: "nudeln",
+                price: 7.00,
+                ingredients: ["Thunfisch", "Knoblauch", "Peperoni", "Tomaten-Sahnesauce"],
+                tags: ["scharf"],
+                allergens: ["A", "C", "D", "L", "N", "G"],
+                additives: ["12"]
+            },
+            {
+                id: 4,
+                number: 80,
+                name: "Napoli",
+                category: "nudeln",
+                price: 7.00,
+                ingredients: ["Tomatensauce", "frischer Basilikum"],
+                tags: ["vegetarisch"],
+                allergens: ["A", "C", "I", "J"],
+                additives: ["7"]
+            },
+            {
+                id: 5,
+                number: 60,
+                name: "Mista",
+                category: "salate",
+                sizes: [
+                    { size: "Standard", price: 4.00 },
+                    { size: "Groß", price: 6.00 }
+                ],
+                ingredients: ["Bunter Salat mit Gurke"],
+                tags: ["vegetarisch"],
+                allergens: [],
+                additives: []
+            },
+            {
+                id: 6,
+                number: 61,
+                name: "Caprese",
+                category: "salate",
+                sizes: [
+                    { size: "Standard", price: 5.00 },
+                    { size: "Groß", price: 7.00 }
+                ],
+                ingredients: ["Frische Tomaten", "Mozzarella", "Basilikum"],
+                tags: ["vegetarisch"],
+                allergens: [],
+                additives: []
+            },
+            {
+                id: 7,
+                number: 169,
+                name: "Gyros Pita",
+                category: "gyros",
+                price: 7.00,
+                ingredients: ["Gyros", "Krautsalat", "Zwiebeln", "Tzatziki"],
+                tags: [],
+                allergens: ["E", "F", "G", "H", "L", "M"],
+                additives: ["2"]
+            },
+            {
+                id: 8,
+                number: 172,
+                name: "Gyros Metaxa",
+                category: "gyros",
+                price: 10.00,
+                ingredients: ["Überbacken mit Metaxasauce", "Spinat"],
+                tags: [],
+                allergens: ["L", "M", "G"],
+                additives: ["1"]
+            }
+        ];
 
-        // --- Status Variablen ---
-        let menuData = [];
-        let restaurantInfo = {};
-        let currentFilter = 'all';
+        // Allergen-Legende
+        const allergenLegend = {
+            'A': 'Glutenhaltiges Getreide',
+            'B': 'Krebstiere', 
+            'C': 'Eier',
+            'D': 'Fische',
+            'E': 'Erdnüsse',
+            'F': 'Sojabohnen',
+            'G': 'Milch',
+            'H': 'Schalenfrüchte',
+            'I': 'Sellerie',
+            'J': 'Senf',
+            'K': 'Sesamsamen',
+            'L': 'Schwefeldioxid und Sulfite',
+            'M': 'Lupinen',
+            'N': 'Weichtiere'
+        };
+
+        // Zusatzstoff-Legende
+        const additiveLegend = {
+            '1': 'Farbstoff',
+            '2': 'Konservierungsstoff',
+            '3': 'Antioxidationsmittel',
+            '4': 'Geschwärzt',
+            '7': 'Phosphat',
+            '8': 'Geschmacksverstärker',
+            '9': 'Formfleischvorderschinken',
+            '10': 'Süßungsmittel',
+            '11': 'Säuerungsmittel',
+            '12': 'Nitritpökelsalz & Nitrat',
+            '13': 'Koffeinhaltig',
+            '14': 'Phenylananinquelle',
+            '16': 'Rindfleisch'
+        };
+
+        // ===== VARIABLEN =====
         let currentCategory = 'all';
-        let cart = [];
+        let currentSpecialWish = 'all';
+        let currentSearch = '';
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
         let currentMealId = null;
-        let isAdminMode = false;
-        let currentBase64Image = null;
         let selectedSize = null;
         let pendingAddToCart = null;
 
-        // --- Initialisierungsfunktionen ---
-        function loadMenuData() {
-            const storedData = localStorage.getItem('menuData');
-            if (storedData) {
-                try {
-                    const data = JSON.parse(storedData);
-                    console.log('Geladene Menüdaten:', data);
-                    return Array.isArray(data) ? data : [];
-                } catch (e) {
-                    console.error("Fehler beim Laden der Menüdaten:", e);
-                    localStorage.setItem('menuData', JSON.stringify([]));
-                    return [];
-                }
-            }
-            localStorage.setItem('menuData', JSON.stringify([]));
-            return [];
-        }
+        // ===== DOM ELEMENTE =====
+        const menuGrid = document.getElementById('menuGrid');
+        const cartItems = document.getElementById('cartItems');
+        const mealPopup = document.getElementById('mealPopup');
+        const cartView = document.getElementById('cartView');
+        const menuView = document.getElementById('menuView');
+        const cartTotal = document.getElementById('cartTotal');
+        const mainControls = document.getElementById('mainControls');
 
-        function saveMenuData() {
-            console.log('Speichere Menüdaten:', menuData);
-            localStorage.setItem('menuData', JSON.stringify(menuData));
-        }
-
-        function loadRestaurantInfo() {
-            const stored = localStorage.getItem('restaurantInfo');
-            if (stored) {
-                try {
-                    return JSON.parse(stored);
-                } catch (e) {
-                    console.error("Fehler beim Laden der Restaurant-Info:", e);
-                    localStorage.setItem('restaurantInfo', JSON.stringify(defaultRestaurantInfo));
-                    return {...defaultRestaurantInfo};
-                }
-            }
-            localStorage.setItem('restaurantInfo', JSON.stringify(defaultRestaurantInfo));
-            return {...defaultRestaurantInfo};
-        }
-
-        function saveRestaurantInfo(info) {
-            localStorage.setItem('restaurantInfo', JSON.stringify(info));
-        }
-
-        function loadCategories() {
-            const stored = localStorage.getItem('categories');
-            if (stored) {
-                try {
-                    const parsed = JSON.parse(stored);
-                    return Array.isArray(parsed) && parsed.length > 0 ? parsed : [...defaultCategories];
-                } catch (e) {
-                    console.error("Fehler beim Laden der Kategorien:", e);
-                    localStorage.setItem('categories', JSON.stringify(defaultCategories));
-                    return [...defaultCategories];
-                }
-            }
-            localStorage.setItem('categories', JSON.stringify(defaultCategories));
-            return [...defaultCategories];
-        }
-
-        function saveCategories(cats) {
-            localStorage.setItem('categories', JSON.stringify(cats));
-        }
-
-        // --- Hilfsfunktionen ---
-        function slugify(str) {
-            return str.toString().toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w\-äöüß-]+/g, '').replace(/\-\-+/g, '-');
-        }
-
+        // ===== HILFSFUNKTIONEN =====
         function displayLabelForCategory(catId) {
-            if (!catId || catId === 'all') return 'Alle Kategorien';
-            return catId.split(/[-_ ]+/).map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+            const labels = {
+                'all': 'Alle Kategorien',
+                'pizza': 'Pizza',
+                'nudeln': 'Nudeln', 
+                'salate': 'Salate',
+                'gyros': 'Gyros'
+            };
+            return labels[catId] || catId;
         }
 
         function getDisplayPrice(meal) {
@@ -1262,1023 +1094,348 @@
             cartTotal.textContent = `Gesamt: € ${total.toFixed(2)}`;
         }
 
-        function updateSelectedTagsDisplay() {
-            const checkboxes = document.querySelectorAll('input[name="tags"]:checked');
-            const selectedTags = Array.from(checkboxes).map(cb => cb.value);
-            
-            if (selectedTags.length > 0) {
-                selectedTagsDisplay.style.display = 'block';
-                selectedTagsDisplay.innerHTML = '<strong>Ausgewählte Tags:</strong> ' + 
-                    selectedTags.map(tag => `<span>${tag}</span>`).join('');
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = totalItems;
+        }
+
+        function getAllergenText(allergenCodes) {
+            return allergenCodes.map(code => allergenLegend[code]).filter(text => text);
+        }
+
+        function getAdditiveText(additiveCodes) {
+            return additiveCodes.map(code => additiveLegend[code] || code).filter(text => text);
+        }
+
+        function toggleScrollToTopButton() {
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.style.display = 'flex';
             } else {
-                selectedTagsDisplay.style.display = 'none';
+                scrollToTopBtn.style.display = 'none';
             }
         }
 
-        function setCheckboxesFromTags(tags) {
-            document.querySelectorAll('input[name="tags"]').forEach(checkbox => {
-                checkbox.checked = false;
-            });
-            
-            if (tags && tags.length > 0) {
-                tags.forEach(tag => {
-                    const checkbox = document.querySelector(`input[name="tags"][value="${tag}"]`);
-                    if (checkbox) {
-                        checkbox.checked = true;
-                    }
-                });
-            }
-            
-            updateSelectedTagsDisplay();
-        }
-
-        function getSelectedTags() {
-            const checkboxes = document.querySelectorAll('input[name="tags"]:checked');
-            return Array.from(checkboxes).map(cb => cb.value);
-        }
-
-        // --- DOM Elemente ---
-        const menuGrid = document.getElementById('menuGrid');
-        const cartItems = document.getElementById('cartItems');
-        const mealPopup = document.getElementById('mealPopup');
-        const cartView = document.getElementById('cartView');
-        const menuView = document.getElementById('menuView');
-        const adminArea = document.getElementById('adminArea');
-        const adminLogoutBtn = document.getElementById('adminLogoutBtn');
-        const menuItemForm = document.getElementById('menuItemForm');
-        const saveMealBtn = document.getElementById('saveMealBtn');
-        const popupImageDiv = document.getElementById('popupImage');
-        const mealImageFile = document.getElementById('mealImageFile');
-        const imagePreview = document.getElementById('imagePreview');
-        const menuCategoriesContainer = document.getElementById('menuCategoriesContainer');
-        const cartTotal = document.getElementById('cartTotal');
-        const selectedTagsDisplay = document.getElementById('selectedTagsDisplay');
-        const mealCategorySelect = document.getElementById('mealCategory');
-        const categoryAdminForm = document.getElementById('categoryAdminForm');
-        const newCategoryInput = document.getElementById('newCategoryInput');
-        const categoryAdminList = document.getElementById('categoryAdminList');
-        const sizesContainer = document.getElementById('sizesContainer');
-        const addSizeBtn = document.getElementById('addSizeBtn');
-        const sizeSelection = document.getElementById('sizeSelection');
-        const sizeOptions = document.getElementById('sizeOptions');
-        const singlePriceGroup = document.getElementById('singlePriceGroup');
-        const confirmationPopup = document.getElementById('confirmationPopup');
-        const confirmationTitle = document.getElementById('confirmationTitle');
-        const confirmationText = document.getElementById('confirmationText');
-        const confirmYes = document.getElementById('confirmYes');
-        const confirmNo = document.getElementById('confirmNo');
-        const restaurantInfoForm = document.getElementById('restaurantInfoForm');
-
-        let categories = [];
-
-        // --- Hauptinitialisierung ---
-        function initializeMenu() {
-            console.log('Initialisiere Menü...');
-            
-            // Daten laden
-            menuData = loadMenuData();
-            restaurantInfo = loadRestaurantInfo();
-            categories = loadCategories();
-            cart = JSON.parse(localStorage.getItem('cart')) || [];
-            
-            console.log('Menüdaten nach Laden:', menuData);
-            console.log('Kategorien:', categories);
-            console.log('Warenkorb:', cart);
-            
-            // UI rendern
-            renderCategoriesUI();
-            renderMenuItems();
-            setupEventListeners();
-            updateRestaurantDisplay();
-            loadRestaurantInfoIntoForm();
-            setupSizeAdmin();
-            
-            // Standard-Ansicht setzen
-            adminArea.style.display = 'none';
-            menuView.style.display = 'block';
-            cartView.style.display = 'none';
-        }
-
-        function loadRestaurantInfoIntoForm() {
-            document.getElementById('restaurantNameInput').value = restaurantInfo.name || '';
-            document.getElementById('restaurantPhoneInput').value = restaurantInfo.phone || '';
-            document.getElementById('restaurantAddressInput').value = restaurantInfo.address || '';
-            document.getElementById('restaurantZipInput').value = restaurantInfo.zip || '';
-            document.getElementById('restaurantCityInput').value = restaurantInfo.city || '';
-            document.getElementById('restaurantHoursInput').value = restaurantInfo.hours || '';
-        }
-
-        function updateRestaurantDisplay() {
-            document.getElementById('restaurantName').textContent = restaurantInfo.name || 'Restaurant Bella Italia';
-            document.getElementById('headerPhone').textContent = `📞 ${restaurantInfo.phone || '0123-4567890'}`;
-            document.getElementById('footerRestaurantName').textContent = restaurantInfo.name || 'Restaurant Bella Italia';
-            document.getElementById('footerAddress').textContent = restaurantInfo.address || 'Musterstraße 123';
-            document.getElementById('footerZipCity').textContent = `${restaurantInfo.zip || '12345'} ${restaurantInfo.city || 'Musterstadt'}`;
-            document.getElementById('footerPhone').textContent = `📞 ${restaurantInfo.phone || '0123-4567890'}`;
-            
-            const hoursContainer = document.getElementById('footerHours');
-            hoursContainer.innerHTML = (restaurantInfo.hours || 'Mo-Fr: 11:00-22:00\nSa-So: 12:00-23:00').split('\n').map(line => `<p>${line}</p>`).join('');
-            
-            const cartPhoneBtn = document.getElementById('cartPhoneBtn');
-            cartPhoneBtn.textContent = `📞 Jetzt anrufen & bestellen: ${restaurantInfo.phone || '0123-4567890'}`;
-            cartPhoneBtn.href = `tel:${(restaurantInfo.phone || '0123-4567890').replace(/[^\d+]/g, '')}`;
-        }
-
-        // --- Größen-Admin ---
-        function setupSizeAdmin() {
-            addSizeBtn.addEventListener('click', addSizeRow);
-            
-            sizesContainer.addEventListener('input', function() {
-                const hasSizes = sizesContainer.children.length > 0;
-                singlePriceGroup.style.display = hasSizes ? 'none' : 'block';
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
             });
         }
 
-        function addSizeRow(sizeData = { size: '', price: '', description: '' }) {
-            const div = document.createElement('div');
-            div.className = 'size-admin-item';
-            div.innerHTML = `
-                <input type="text" class="size-name" placeholder="Größe (z.B. klein)" value="${sizeData.size}">
-                <input type="number" class="size-price" placeholder="Preis" step="0.01" value="${sizeData.price}">
-                <input type="text" class="size-desc" placeholder="Beschreibung (z.B. 28cm)" value="${sizeData.description}">
-                <button type="button" class="remove-size-btn">🗑️</button>
-            `;
-            
-            div.querySelector('.remove-size-btn').addEventListener('click', function() {
-                div.remove();
-                if (sizesContainer.children.length === 0) {
-                    singlePriceGroup.style.display = 'block';
-                }
-            });
-            
-            sizesContainer.appendChild(div);
-            
-            if (sizesContainer.children.length > 0) {
-                singlePriceGroup.style.display = 'none';
-            }
-        }
-
-        function getSizesFromForm() {
-            const sizeItems = sizesContainer.querySelectorAll('.size-admin-item');
-            const sizes = [];
-            
-            sizeItems.forEach(item => {
-                const size = item.querySelector('.size-name').value.trim();
-                const price = parseFloat(item.querySelector('.size-price').value);
-                const description = item.querySelector('.size-desc').value.trim();
-                
-                if (size && !isNaN(price)) {
-                    sizes.push({
-                        size: size,
-                        price: price,
-                        description: description
-                    });
-                }
-            });
-            
-            return sizes;
-        }
-
-        function loadSizesIntoForm(sizes) {
-            sizesContainer.innerHTML = '';
-            
-            if (sizes && sizes.length > 0) {
-                sizes.forEach(size => {
-                    addSizeRow(size);
-                });
-                singlePriceGroup.style.display = 'none';
-            } else {
-                singlePriceGroup.style.display = 'block';
-            }
-        }
-
-        // --- Rendering Funktionen ---
-        function renderCategoriesUI() {
-            menuCategoriesContainer.innerHTML = '';
-            
-            // "Alle Kategorien" Button
-            const allBtn = document.createElement('button');
-            allBtn.className = 'category-btn' + (currentCategory === 'all' ? ' active' : '');
-            allBtn.dataset.category = 'all';
-            allBtn.textContent = 'Alle Kategorien';
-            allBtn.addEventListener('click', () => {
-                currentCategory = 'all';
-                document.querySelectorAll('#menuCategoriesContainer .category-btn').forEach(b => b.classList.remove('active'));
-                allBtn.classList.add('active');
-                renderMenuItems();
-            });
-            menuCategoriesContainer.appendChild(allBtn);
-
-            // Kategorie-Buttons
-            categories.forEach(cat => {
-                const btn = document.createElement('button');
-                btn.className = 'category-btn' + (currentCategory === cat ? ' active' : '');
-                btn.dataset.category = cat;
-                btn.textContent = displayLabelForCategory(cat);
-                btn.addEventListener('click', () => {
-                    currentCategory = cat;
-                    document.querySelectorAll('#menuCategoriesContainer .category-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    renderMenuItems();
-                });
-                menuCategoriesContainer.appendChild(btn);
-            });
-
-            // Kategorien für Admin-Formular
-            mealCategorySelect.innerHTML = '';
-            categories.forEach(cat => {
-                const opt = document.createElement('option');
-                opt.value = cat;
-                opt.textContent = displayLabelForCategory(cat);
-                mealCategorySelect.appendChild(opt);
-            });
-
-            // Admin-Kategorien-Liste
-            categoryAdminList.innerHTML = '';
-            categories.forEach((cat, index) => {
-                const div = document.createElement('div');
-                div.className = 'category-admin-item';
-                const left = document.createElement('div');
-                left.className = 'left';
-                const label = document.createElement('div');
-                label.textContent = displayLabelForCategory(cat);
-                left.appendChild(label);
-                const right = document.createElement('div');
-
-                const upBtn = document.createElement('button');
-                upBtn.className = 'category-move-btn';
-                upBtn.textContent = '⬆️';
-                upBtn.title = 'Nach oben verschieben';
-                upBtn.disabled = index === 0;
-                upBtn.addEventListener('click', () => {
-                    if (index > 0) {
-                        [categories[index], categories[index-1]] = [categories[index-1], categories[index]];
-                        saveCategories(categories);
-                        renderCategoriesUI();
-                        renderMenuItems();
-                    }
-                });
-
-                const downBtn = document.createElement('button');
-                downBtn.className = 'category-move-btn';
-                downBtn.textContent = '⬇️';
-                downBtn.title = 'Nach unten verschieben';
-                downBtn.disabled = index === categories.length - 1;
-                downBtn.addEventListener('click', () => {
-                    if (index < categories.length - 1) {
-                        [categories[index], categories[index+1]] = [categories[index+1], categories[index]];
-                        saveCategories(categories);
-                        renderCategoriesUI();
-                        renderMenuItems();
-                    }
-                });
-
-                const editBtn = document.createElement('button');
-                editBtn.className = 'category-edit-btn';
-                editBtn.textContent = '✏️';
-                editBtn.title = 'Umbenennen';
-                editBtn.addEventListener('click', () => {
-                    const newLabel = prompt('Neuer Name für Kategorie (Anzeige):', displayLabelForCategory(cat));
-                    if (!newLabel) return;
-                    const newId = slugify(newLabel);
-                    if (newId === cat) {
-                        alert('Kategorie unverändert oder bereits vorhanden.');
-                        return;
-                    }
-                    if (categories.includes(newId)) {
-                        alert('Eine Kategorie mit diesem Namen existiert bereits.');
-                        return;
-                    }
-                    const idx = categories.indexOf(cat);
-                    if (idx !== -1) {
-                        const oldId = categories[idx];
-                        categories[idx] = newId;
-                        menuData = menuData.map(m => m.category === oldId ? { ...m, category: newId } : m);
-                        saveCategories(categories);
-                        saveMenuData();
-                        renderCategoriesUI();
-                        renderMenuItems();
-                    }
-                });
-
-                const deleteBtn = document.createElement('button');
-                deleteBtn.className = 'category-delete-btn';
-                deleteBtn.textContent = '🗑️';
-                deleteBtn.title = 'Löschen';
-                deleteBtn.addEventListener('click', () => {
-                    if (confirm(`Kategorie "${displayLabelForCategory(cat)}" wirklich löschen? Alle Gerichte dieser Kategorie werden ebenfalls gelöscht.`)) {
-                        categories = categories.filter(c => c !== cat);
-                        menuData = menuData.filter(m => m.category !== cat);
-                        saveCategories(categories);
-                        saveMenuData();
-                        if (currentCategory === cat) currentCategory = 'all';
-                        renderCategoriesUI();
-                        renderMenuItems();
-                    }
-                });
-
-                right.appendChild(upBtn);
-                right.appendChild(downBtn);
-                right.appendChild(editBtn);
-                right.appendChild(deleteBtn);
-                div.appendChild(left);
-                div.appendChild(right);
-                categoryAdminList.appendChild(div);
-            });
-        }
-
+        // ===== RENDERING FUNKTIONEN =====
         function renderMenuItems() {
-            console.log('Rendere Menüpunkte mit Daten:', menuData);
             menuGrid.innerHTML = '';
             
             if (menuData.length === 0) {
-                menuGrid.innerHTML = '<div class="no-items">Noch keine Gerichte vorhanden. Bitte fügen Sie im Admin-Bereich Gerichte hinzu.</div>';
+                menuGrid.innerHTML = '<div class="no-items">Noch keine Gerichte vorhanden.</div>';
                 return;
             }
             
             const filteredMeals = menuData.filter(meal => {
                 const categoryMatch = currentCategory === 'all' || meal.category === currentCategory;
-                const filterMatch = currentFilter === 'all' || (meal.tags && meal.tags.includes(currentFilter));
-                return categoryMatch && filterMatch;
+                const specialWishMatch = currentSpecialWish === 'all' || (meal.tags && meal.tags.includes(currentSpecialWish));
+                const searchMatch = currentSearch === '' || 
+                    meal.name.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                    (meal.ingredients && meal.ingredients.some(ingredient => 
+                        ingredient.toLowerCase().includes(currentSearch.toLowerCase())
+                    ));
+                
+                return categoryMatch && specialWishMatch && searchMatch;
             });
-
-            console.log('Gefilterte Gerichte:', filteredMeals);
 
             filteredMeals.forEach(meal => {
-                const mealElement = createMealElement(meal);
-                menuGrid.appendChild(mealElement);
+                const item = document.createElement('div');
+                item.className = 'menu-item';
+                item.onclick = () => openMealPopup(meal.id);
+                
+                const cartItem = cart.find(item => item.mealId === meal.id);
+                const cartIndicator = cartItem ? `<div class="cart-indicator">${cartItem.quantity}x</div>` : '';
+                
+                item.innerHTML = `
+                    <div class="menu-item-number">${meal.number}</div>
+                    <h3>${meal.name}</h3>
+                    <div class="price">${getDisplayPrice(meal)}</div>
+                    <div class="ingredients-label">Zutaten:</div>
+                    <p class="ingredients">${meal.ingredients.join(', ')}</p>
+                    <div class="tags">
+                        ${meal.tags.map(tag => `<span class="tag ${tag}">${tag}</span>`).join('')}
+                        ${cartIndicator}
+                    </div>
+                `;
+                
+                menuGrid.appendChild(item);
             });
         }
 
-        function createMealElement(meal) {
-            const div = document.createElement('div');
-            div.className = 'menu-item';
-            div.setAttribute('data-id', meal.id);
+        function renderCartItems() {
+            cartItems.innerHTML = '';
             
-            const tagsHTML = (meal.tags || []).map(tag => 
-                `<span class="tag ${tag}">${tag}</span>`
-            ).join('');
-            
-            // Warenkorb-Indikator
-            let cartIndicator = '';
-            const cartItemsForMeal = cart.filter(item => item.mealId === meal.id);
-            if (cartItemsForMeal.length > 0) {
-                const totalQuantity = cartItemsForMeal.reduce((sum, item) => sum + item.quantity, 0);
-                let sizeInfo = '';
-                if (meal.sizes && meal.sizes.length > 0) {
-                    const sizesInCart = cartItemsForMeal.map(item => `${item.quantity}x ${item.selectedSize}`).join(', ');
-                    sizeInfo = ` (${sizesInCart})`;
-                }
-                cartIndicator = `<span class="tag" style="background:#d4edda; color:#155724;">🛒 ${totalQuantity}x${sizeInfo}</span>`;
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<div class="no-items">Ihr Warenkorb ist leer</div>';
+                return;
             }
-
-            let adminControls = '';
-            if (isAdminMode) {
-                adminControls = `
-                    <div class="admin-controls-item">
-                        <button class="admin-edit-btn" data-id="${meal.id}" title="Bearbeiten">✏️</button>
-                        <button class="admin-delete-btn" data-id="${meal.id}" title="Löschen">🗑️</button>
+            
+            cart.forEach((item, index) => {
+                const meal = menuData.find(m => m.id === item.mealId);
+                if (!meal) return;
+                
+                const itemPrice = meal.sizes && meal.sizes.length > 0 ? 
+                    meal.sizes.find(s => s.size === item.selectedSize)?.price || 0 : 
+                    meal.price || 0;
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <div class="cart-item-info">
+                        <div class="cart-item-number">${meal.number}</div>
+                        <div>
+                            <div class="cart-item-name">${meal.name}</div>
+                            ${item.selectedSize ? `<div class="cart-item-size">${item.selectedSize}</div>` : ''}
+                        </div>
+                    </div>
+                    <div class="cart-item-price">€ ${(itemPrice * item.quantity).toFixed(2)}</div>
+                    <div class="cart-item-controls">
+                        <button class="quantity-btn remove" onclick="removeFromCart(${index})">-</button>
+                        <span class="item-quantity">${item.quantity}</span>
+                        <button class="quantity-btn" onclick="addToCartFromCart(${index})">+</button>
                     </div>
                 `;
-            }
-
-            const numberDisplay = meal.number ? `<div class="menu-item-number">${meal.number}</div>` : '';
-            const displayPrice = getDisplayPrice(meal);
-
-            div.innerHTML = `
-                ${numberDisplay}
-                ${adminControls}
-                <h3>${meal.name}</h3>
-                <div class="price">${displayPrice}</div>
-                <p class="description">${meal.description || 'Keine Beschreibung'}</p>
-                <div class="tags">
-                    ${tagsHTML}
-                    ${cartIndicator}
-                </div>
-            `;
+                cartItems.appendChild(cartItem);
+            });
             
-            return div;
-        }
-
-        function renderSizeOptions(meal) {
-            sizeOptions.innerHTML = '';
-            selectedSize = null;
-            
-            if (meal.sizes && meal.sizes.length > 0) {
-                sizeSelection.style.display = 'block';
-                
-                meal.sizes.forEach((sizeOption, index) => {
-                    const label = document.createElement('label');
-                    label.className = 'size-option';
-                    label.innerHTML = `
-                        <input type="radio" name="mealSize" value="${sizeOption.size}" ${index === 0 ? 'checked' : ''}>
-                        <span class="size-label">${sizeOption.size}</span>
-                        <span class="size-price">€ ${sizeOption.price.toFixed(2)}</span>
-                    `;
-                    
-                    if (sizeOption.description) {
-                        const desc = document.createElement('div');
-                        desc.className = 'size-description';
-                        desc.textContent = sizeOption.description;
-                        label.appendChild(desc);
-                    }
-                    
-                    label.addEventListener('click', function() {
-                        document.querySelectorAll('.size-option').forEach(opt => {
-                            opt.classList.remove('selected');
-                        });
-                        this.classList.add('selected');
-                        selectedSize = sizeOption.size;
-                        document.getElementById('cartPopupBtn').disabled = false;
-                        document.getElementById('cartPopupBtn').textContent = `🛒 In den Warenkorb - € ${sizeOption.price.toFixed(2)}`;
-                    });
-                    
-                    if (index === 0) {
-                        label.classList.add('selected');
-                        selectedSize = sizeOption.size;
-                    }
-                    
-                    sizeOptions.appendChild(label);
-                });
-                
-                document.getElementById('cartPopupBtn').disabled = false;
-                const firstSize = meal.sizes[0];
-                document.getElementById('cartPopupBtn').textContent = `🛒 In den Warenkorb - € ${firstSize.price.toFixed(2)}`;
-            } else {
-                sizeSelection.style.display = 'none';
-                selectedSize = null;
-                document.getElementById('cartPopupBtn').disabled = false;
-                document.getElementById('cartPopupBtn').textContent = `🛒 In den Warenkorb - € ${(meal.price || 0).toFixed(2)}`;
-            }
+            updateCartTotal();
         }
 
         function openMealPopup(mealId) {
             const meal = menuData.find(m => m.id === mealId);
             if (!meal) return;
-
+            
             currentMealId = mealId;
             selectedSize = null;
             
-            popupImageDiv.innerHTML = '';
-            if (meal.imageBase64) {
-                const img = document.createElement('img');
-                img.src = meal.imageBase64;
-                img.alt = meal.name;
-                popupImageDiv.appendChild(img);
-            } else {
-                popupImageDiv.textContent = `[Kein Bild verfügbar für ${meal.name}]`;
-            }
-
             document.getElementById('popupTitle').textContent = meal.name;
+            document.getElementById('popupPrice').textContent = getDisplayPrice(meal);
+            document.getElementById('popupIngredients').textContent = meal.ingredients.join(', ');
+            
+            const popupTags = document.getElementById('popupTags');
+            popupTags.innerHTML = meal.tags.map(tag => `<span class="tag ${tag}">${tag}</span>`).join('');
+            
+            const sizeSelection = document.getElementById('sizeSelection');
+            const sizeOptions = document.getElementById('sizeOptions');
             
             if (meal.sizes && meal.sizes.length > 0) {
-                document.getElementById('popupPrice').textContent = '';
+                sizeSelection.style.display = 'block';
+                sizeOptions.innerHTML = '';
+                
+                meal.sizes.forEach((sizeOption, index) => {
+                    const sizeDiv = document.createElement('div');
+                    sizeDiv.className = 'size-option';
+                    if (index === 0) {
+                        sizeDiv.classList.add('selected');
+                        selectedSize = sizeOption.size;
+                    }
+                    
+                    sizeDiv.innerHTML = `
+                        <input type="radio" name="size" value="${sizeOption.size}" ${index === 0 ? 'checked' : ''}>
+                        <span class="size-label">${sizeOption.size}</span>
+                        <span class="size-price">€ ${sizeOption.price.toFixed(2)}</span>
+                        ${sizeOption.description ? `<div class="size-description">${sizeOption.description}</div>` : ''}
+                    `;
+                    
+                    sizeDiv.onclick = () => {
+                        document.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('selected'));
+                        sizeDiv.classList.add('selected');
+                        sizeDiv.querySelector('input').checked = true;
+                        selectedSize = sizeOption.size;
+                        updateCartButtonState();
+                    };
+                    
+                    sizeOptions.appendChild(sizeDiv);
+                });
             } else {
-                document.getElementById('popupPrice').textContent = `€ ${(meal.price || 0).toFixed(2)}`;
+                sizeSelection.style.display = 'none';
+                selectedSize = null;
             }
             
-            document.getElementById('popupDescription').textContent = meal.description || 'Keine Beschreibung';
-            
-            const tagsContainer = document.getElementById('popupTags');
-            tagsContainer.innerHTML = (meal.tags || []).map(tag => 
-                `<span class="tag ${tag}">${tag}</span>`
-            ).join('');
-            
-            const ingredientsList = document.getElementById('ingredientsList');
-            ingredientsList.innerHTML = (meal.ingredients || []).map(ingredient => 
-                `<li>${ingredient}</li>`
-            ).join('');
-            
-            renderSizeOptions(meal);
-            
-            const cartBtn = document.getElementById('cartPopupBtn');
-            const cartItemsForMeal = cart.filter(item => item.mealId === mealId);
-            
-            if (cartItemsForMeal.length > 0) {
-                const totalQuantity = cartItemsForMeal.reduce((sum, item) => sum + item.quantity, 0);
-                cartBtn.classList.add('added');
-                if (meal.sizes && meal.sizes.length > 0) {
-                    cartBtn.textContent = `🛒 Im Warenkorb (${totalQuantity}x) - Größe wählen`;
-                } else {
-                    cartBtn.textContent = `🛒 Im Warenkorb (${totalQuantity}x)`;
-                }
+            const allergensSection = document.getElementById('allergensSection');
+            const allergensContent = document.getElementById('allergensContent');
+            if (meal.allergens && meal.allergens.length > 0) {
+                allergensSection.style.display = 'block';
+                allergensContent.innerHTML = getAllergenText(meal.allergens)
+                    .map(text => `<div class="allergen-item">${text}</div>`)
+                    .join('');
             } else {
-                cartBtn.classList.remove('added');
+                allergensSection.style.display = 'none';
             }
             
+            const additivesSection = document.getElementById('additivesSection');
+            const additivesContent = document.getElementById('additivesContent');
+            if (meal.additives && meal.additives.length > 0) {
+                additivesSection.style.display = 'block';
+                additivesContent.innerHTML = getAdditiveText(meal.additives)
+                    .map(text => `<div class="additive-item">${text}</div>`)
+                    .join('');
+            } else {
+                additivesSection.style.display = 'none';
+            }
+            
+            updateCartButtonState();
             mealPopup.style.display = 'flex';
         }
 
-        function renderCart() {
-            cartItems.innerHTML = '';
-            if (cart.length === 0) {
-                cartItems.innerHTML = '<p>Ihr Warenkorb ist leer.</p>';
-                return;
+        function updateCartButtonState() {
+            const btn = document.getElementById('cartPopupBtn');
+            if (selectedSize !== null || !menuData.find(m => m.id === currentMealId)?.sizes) {
+                btn.disabled = false;
+                btn.textContent = '🛒 In den Warenkorb';
+            } else {
+                btn.disabled = true;
+                btn.textContent = '🛒 Bitte Größe wählen';
             }
-
-            cart.forEach(item => {
-                const meal = menuData.find(m => m.id === item.mealId);
-                if (meal) {
-                    const cartItemElement = document.createElement('div');
-                    cartItemElement.className = 'cart-item';
-                    
-                    let price = meal.price || 0;
-                    let sizeInfo = '';
-                    
-                    if (meal.sizes && meal.sizes.length > 0 && item.selectedSize) {
-                        const size = meal.sizes.find(s => s.size === item.selectedSize);
-                        if (size) {
-                            price = size.price;
-                            sizeInfo = `<div class="cart-item-size">Größe: ${item.selectedSize}${size.description ? ` (${size.description})` : ''}</div>`;
-                        }
-                    }
-                    
-                    const numberHTML = meal.number ? `<div class="cart-item-number">${meal.number}</div>` : '';
-                    
-                    cartItemElement.innerHTML = `
-                        <div class="cart-item-info">
-                            ${numberHTML}
-                            <div>
-                                <div class="cart-item-name">${meal.name}</div>
-                                ${sizeInfo}
-                                <div class="cart-item-price">€ ${price.toFixed(2)}</div>
-                            </div>
-                        </div>
-                        <div class="cart-item-controls">
-                            <button class="quantity-btn remove" data-meal-id="${meal.id}" data-size="${item.selectedSize || ''}">−</button>
-                            <span class="item-quantity">${item.quantity}</span>
-                            <button class="quantity-btn" data-meal-id="${meal.id}" data-size="${item.selectedSize || ''}">+</button>
-                        </div>
-                    `;
-                    cartItems.appendChild(cartItemElement);
-                }
-            });
-
-            updateCartTotal();
         }
 
-        // --- Warenkorb-Funktionen ---
-        function showConfirmationPopup(mealId, size = null) {
-            const meal = menuData.find(m => m.id === mealId);
-            if (!meal) return;
-
-            let sizeInfo = '';
-            let price = meal.price || 0;
+        // ===== CART FUNKTIONEN =====
+        function addToCart() {
+            if (!currentMealId) return;
             
-            if (meal.sizes && meal.sizes.length > 0 && size) {
-                const selectedSizeObj = meal.sizes.find(s => s.size === size);
-                if (selectedSizeObj) {
-                    sizeInfo = ` (${size})`;
-                    price = selectedSizeObj.price;
-                }
-            }
-
-            confirmationTitle.textContent = `${meal.name}${sizeInfo} in den Warenkorb legen?`;
-            confirmationText.textContent = `Möchten Sie "${meal.name}${sizeInfo}" für € ${price.toFixed(2)} in den Warenkorb legen?`;
-            
-            pendingAddToCart = { mealId, size };
-            confirmationPopup.style.display = 'flex';
-        }
-
-        function addToCart(mealId, size = null) {
-            const meal = menuData.find(m => m.id === mealId);
+            const meal = menuData.find(m => m.id === currentMealId);
             if (!meal) return;
-
-            if (meal.sizes && meal.sizes.length > 0 && !size) {
-                alert('Bitte wählen Sie eine Größe aus.');
-                return;
-            }
-
+            
             const existingItemIndex = cart.findIndex(item => 
-                item.mealId === mealId && item.selectedSize === size
+                item.mealId === currentMealId && 
+                item.selectedSize === selectedSize
             );
-
+            
             if (existingItemIndex !== -1) {
                 cart[existingItemIndex].quantity += 1;
             } else {
-                cart.push({ 
-                    mealId: mealId, 
-                    quantity: 1,
-                    selectedSize: size 
+                cart.push({
+                    mealId: currentMealId,
+                    selectedSize: selectedSize,
+                    quantity: 1
                 });
             }
             
             localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            closePopup();
             
-            if (currentMealId === mealId) {
-                const cartBtn = document.getElementById('cartPopupBtn');
-                const cartItemsForMeal = cart.filter(item => item.mealId === mealId);
-                const totalQuantity = cartItemsForMeal.reduce((sum, item) => sum + item.quantity, 0);
-                
-                cartBtn.classList.add('added');
-                if (meal.sizes && meal.sizes.length > 0) {
-                    cartBtn.textContent = `🛒 Im Warenkorb (${totalQuantity}x) - Größe wählen`;
-                } else {
-                    cartBtn.textContent = `🛒 Im Warenkorb (${totalQuantity}x)`;
-                }
-            }
-            
-            renderMenuItems();
-            if (cartView.style.display === 'block') {
-                renderCart();
-            }
+            showConfirmation('Erfolg', `${meal.name} wurde zum Warenkorb hinzugefügt!`);
         }
 
-        function removeFromCart(mealId, size = null) {
-            const existingItemIndex = cart.findIndex(item => 
-                item.mealId === mealId && item.selectedSize === size
-            );
-
-            if (existingItemIndex !== -1) {
-                if (cart[existingItemIndex].quantity > 1) {
-                    cart[existingItemIndex].quantity -= 1;
-                } else {
-                    cart.splice(existingItemIndex, 1);
-                }
-                localStorage.setItem('cart', JSON.stringify(cart));
-                
-                if (currentMealId === mealId) {
-                    const cartBtn = document.getElementById('cartPopupBtn');
-                    const meal = menuData.find(m => m.id === mealId);
-                    const cartItemsForMeal = cart.filter(item => item.mealId === mealId);
-                    
-                    if (cartItemsForMeal.length > 0) {
-                        const totalQuantity = cartItemsForMeal.reduce((sum, item) => sum + item.quantity, 0);
-                        if (meal.sizes && meal.sizes.length > 0) {
-                            cartBtn.textContent = `🛒 Im Warenkorb (${totalQuantity}x) - Größe wählen`;
-                        } else {
-                            cartBtn.textContent = `🛒 Im Warenkorb (${totalQuantity}x)`;
-                        }
-                    } else {
-                        cartBtn.textContent = meal.sizes && meal.sizes.length > 0 ? 
-                            '🛒 Bitte Größe wählen' : 
-                            `🛒 In den Warenkorb - € ${(meal.price || 0).toFixed(2)}`;
-                        cartBtn.classList.remove('added');
-                        cartBtn.disabled = meal.sizes && meal.sizes.length > 0;
-                    }
-                }
-                
-                renderMenuItems();
-                if (cartView.style.display === 'block') {
-                    renderCart();
-                }
-            }
+        function addToCartFromCart(index) {
+            cart[index].quantity += 1;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            renderCartItems();
         }
 
-        // --- Admin-Funktionen ---
-        function toggleAdminMode(login = true) {
-            if (login) {
-                isAdminMode = true;
-                adminArea.style.display = 'block';
+        function removeFromCart(index) {
+            if (cart[index].quantity > 1) {
+                cart[index].quantity -= 1;
             } else {
-                isAdminMode = false;
-                adminArea.style.display = 'none';
-                resetForm();
+                cart.splice(index, 1);
             }
-            renderMenuItems();
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            renderCartItems();
         }
 
-        function fillFormForEdit(mealId) {
-            const meal = menuData.find(m => m.id === mealId);
-            if (!meal) return;
-
-            document.getElementById('mealIdInput').value = meal.id;
-            document.getElementById('mealNumber').value = meal.number || '';
-            document.getElementById('mealName').value = meal.name;
-            document.getElementById('mealCategory').value = meal.category;
-            
-            loadSizesIntoForm(meal.sizes);
-            
-            if (!meal.sizes || meal.sizes.length === 0) {
-                document.getElementById('mealPrice').value = meal.price ? meal.price.toFixed(2) : '';
-            } else {
-                document.getElementById('mealPrice').value = '';
-            }
-            
-            document.getElementById('mealDescription').value = meal.description || '';
-            setCheckboxesFromTags(meal.tags);
-            document.getElementById('mealIngredients').value = (meal.ingredients || []).join(',');
-            
-            currentBase64Image = meal.imageBase64 || null;
-            updateImagePreview(currentBase64Image);
-
-            saveMealBtn.textContent = 'Änderungen speichern';
-        }
-        
-        function updateImagePreview(base64Data) {
-            imagePreview.innerHTML = '';
-            if (base64Data) {
-                const img = document.createElement('img');
-                img.src = base64Data;
-                imagePreview.appendChild(img);
-            } else {
-                imagePreview.textContent = 'Bildvorschau';
-            }
+        function clearCart() {
+            cart = [];
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            renderCartItems();
         }
 
-        function resetForm() {
-            menuItemForm.reset();
-            document.getElementById('mealIdInput').value = '';
-            saveMealBtn.textContent = 'Menüpunkt speichern';
-            currentBase64Image = null;
-            updateImagePreview(null);
-            setCheckboxesFromTags([]);
-            sizesContainer.innerHTML = '';
-            singlePriceGroup.style.display = 'block';
+        // ===== VIEW FUNKTIONEN =====
+        function showCartView() {
+            menuView.style.display = 'none';
+            cartView.style.display = 'block';
+            mainControls.style.display = 'none'; // Blende die 4 Filter-Felder aus
+            renderCartItems();
         }
-        
-        function resizeImage(file, maxWidth = 400, maxHeight = 400, quality = 0.8) {
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        let width = img.width;
-                        let height = img.height;
 
-                        if (width > height) {
-                            if (width > maxWidth) {
-                                height *= maxWidth / width;
-                                width = maxWidth;
-                            }
-                        } else {
-                            if (height > maxHeight) {
-                                width *= maxHeight / height;
-                                height = maxHeight;
-                            }
-                        }
-
-                        const canvas = document.createElement('canvas');
-                        canvas.width = width;
-                        canvas.height = height;
-                        
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-                        
-                        resolve(canvas.toDataURL('image/jpeg', quality));
-                    };
-                    img.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            });
+        function showMenuView() {
+            cartView.style.display = 'none';
+            menuView.style.display = 'block';
+            mainControls.style.display = 'flex'; // Zeige die 4 Filter-Felder wieder an
         }
-        
-        async function saveMenuItem(e) {
-            e.preventDefault();
 
-            const file = mealImageFile.files[0];
-            let imageToSave = currentBase64Image;
+        function closePopup() {
+            mealPopup.style.display = 'none';
+            currentMealId = null;
+            selectedSize = null;
+        }
 
-            if (file) {
-                try {
-                    imageToSave = await resizeImage(file);
-                } catch (error) {
-                    alert("Fehler beim Verarbeiten des Bildes.");
-                    console.error(error);
-                    return;
-                }
-            } 
-
-            const id = document.getElementById('mealIdInput').value;
-            const numberInput = document.getElementById('mealNumber').value;
-            const number = numberInput ? parseInt(numberInput) : null;
-            const name = document.getElementById('mealName').value;
-            const category = document.getElementById('mealCategory').value;
+        function showConfirmation(title, text) {
+            const popup = document.getElementById('confirmationPopup');
+            document.getElementById('confirmationTitle').textContent = title;
+            document.getElementById('confirmationText').textContent = text;
+            popup.style.display = 'flex';
             
-            const sizes = getSizesFromForm();
-            const hasSizes = sizes.length > 0;
-            
-            let price = 0;
-            if (!hasSizes) {
-                price = parseFloat(document.getElementById('mealPrice').value);
-                if (isNaN(price)) {
-                    alert("Bitte geben Sie einen gültigen Preis ein.");
-                    return;
-                }
-            }
-            
-            const description = document.getElementById('mealDescription').value;
-            const tags = getSelectedTags();
-            const ingredients = document.getElementById('mealIngredients').value.split(',').map(item => item.trim()).filter(item => item);
-
-            const newMeal = {
-                name,
-                category,
-                description,
-                tags,
-                ingredients,
-                imageBase64: imageToSave,
-                number: number
+            document.getElementById('confirmOk').onclick = () => {
+                popup.style.display = 'none';
             };
-
-            if (hasSizes) {
-                newMeal.sizes = sizes;
-                delete newMeal.price;
-            } else {
-                newMeal.price = price;
-                delete newMeal.sizes;
-            }
-
-            if (id) {
-                const index = menuData.findIndex(m => m.id === parseInt(id));
-                if (index !== -1) {
-                    menuData[index] = { ...menuData[index], ...newMeal };
-                    alert(`Gericht "${name}" erfolgreich aktualisiert!`);
-                }
-            } else {
-                const newId = menuData.length > 0 ? Math.max(...menuData.map(m => m.id)) + 1 : 1;
-                menuData.push({ id: newId, ...newMeal });
-                alert(`Gericht "${name}" erfolgreich hinzugefügt!`);
-            }
-
-            saveMenuData();
-            resetForm();
-            renderMenuItems();
-        }
-
-        function deleteMenuItem(mealId) {
-            if (confirm("Sind Sie sicher, dass Sie dieses Gericht löschen möchten?")) {
-                menuData = menuData.filter(m => m.id !== mealId);
-                saveMenuData();
-                renderMenuItems();
-                alert("Gericht gelöscht.");
-            }
-        }
-
-        function saveRestaurantInfoForm(e) {
-            e.preventDefault();
-
-            const newInfo = {
-                name: document.getElementById('restaurantNameInput').value || defaultRestaurantInfo.name,
-                phone: document.getElementById('restaurantPhoneInput').value || defaultRestaurantInfo.phone,
-                address: document.getElementById('restaurantAddressInput').value || defaultRestaurantInfo.address,
-                zip: document.getElementById('restaurantZipInput').value || defaultRestaurantInfo.zip,
-                city: document.getElementById('restaurantCityInput').value || defaultRestaurantInfo.city,
-                hours: document.getElementById('restaurantHoursInput').value || defaultRestaurantInfo.hours
+            
+            document.getElementById('confirmNo').onclick = () => {
+                popup.style.display = 'none';
             };
-
-            restaurantInfo = newInfo;
-            saveRestaurantInfo(restaurantInfo);
-            updateRestaurantDisplay();
-            alert("Restaurant Informationen erfolgreich gespeichert!");
         }
 
-        // --- Event Listeners ---
-        function setupEventListeners() {
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentFilter = btn.dataset.filter;
-                    renderMenuItems();
-                });
-            });
-
-            document.querySelectorAll('input[name="tags"]').forEach(checkbox => {
-                checkbox.addEventListener('change', updateSelectedTagsDisplay);
-            });
-
-            adminLogoutBtn.addEventListener('click', () => toggleAdminMode(false));
-
-            mealImageFile.addEventListener('change', async (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    try {
-                        const base64Preview = await new Promise(resolve => {
-                            const reader = new FileReader();
-                            reader.onload = () => resolve(reader.result);
-                            reader.readAsDataURL(file);
-                        });
-                        currentBase64Image = base64Preview;
-                        updateImagePreview(base64Preview);
-                    } catch (err) {
-                        console.error("Fehler beim Lesen der Datei:", err);
-                        alert("Fehler beim Lesen der Datei.");
-                    }
-                } else {
-                    if (document.getElementById('mealIdInput').value === '') {
-                         currentBase64Image = null; 
-                    }
-                    updateImagePreview(currentBase64Image);
-                }
-            });
-
-            menuGrid.addEventListener('click', (e) => {
-                const target = e.target;
-                const menuItem = target.closest('.menu-item');
-                
-                if (!menuItem) return;
-
-                const mealId = parseInt(menuItem.dataset.id);
-
-                if (isAdminMode) {
-                    if (target.classList.contains('admin-edit-btn')) {
-                        fillFormForEdit(mealId);
-                        adminArea.scrollIntoView({ behavior: 'smooth' });
-                        return;
-                    } 
-                    if (target.classList.contains('admin-delete-btn')) {
-                        deleteMenuItem(mealId);
-                        return;
-                    }
-                    fillFormForEdit(mealId);
-                    adminArea.scrollIntoView({ behavior: 'smooth' });
-                    return;
-                }
-
-                openMealPopup(mealId);
-            });
-            
-            cartItems.addEventListener('click', (e) => {
-                if (e.target.classList.contains('quantity-btn')) {
-                    const mealId = parseInt(e.target.dataset.mealId);
-                    const size = e.target.dataset.size || null;
-                    if (e.target.classList.contains('remove')) {
-                        removeFromCart(mealId, size);
-                    } else {
-                        addToCart(mealId, size);
-                    }
-                }
-            });
-
-            menuItemForm.addEventListener('submit', saveMenuItem);
-            document.getElementById('resetFormBtn').addEventListener('click', resetForm);
-
-            restaurantInfoForm.addEventListener('submit', saveRestaurantInfoForm);
-
-            categoryAdminForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const raw = newCategoryInput.value.trim();
-                if (!raw) return;
-                const id = slugify(raw);
-                if (id === '' || categories.includes(id)) {
-                    alert('Kategorie existiert bereits oder ungültig.');
-                    return;
-                }
-                categories.push(id);
-                saveCategories(categories);
-                newCategoryInput.value = '';
-                renderCategoriesUI();
-            });
-
-            document.addEventListener('keydown', (e) => {
-                if (!isAdminMode && (e.ctrlKey && e.altKey && e.key === 'a' || e.metaKey && e.altKey && e.key === 'a')) {
-                    e.preventDefault();
-                    toggleAdminMode(true);
-                }
-            });
-            
-            document.getElementById('closePopup').addEventListener('click', () => {
-                mealPopup.style.display = 'none';
-            });
-            
-            document.getElementById('cartPopupBtn').addEventListener('click', () => {
-                showConfirmationPopup(currentMealId, selectedSize);
-            });
-            
-            mealPopup.addEventListener('click', (e) => {
-                if (e.target === mealPopup) {
-                    mealPopup.style.display = 'none';
-                }
-            });
-
-            confirmYes.addEventListener('click', () => {
-                if (pendingAddToCart) {
-                    addToCart(pendingAddToCart.mealId, pendingAddToCart.size);
-                    pendingAddToCart = null;
-                }
-                confirmationPopup.style.display = 'none';
-            });
-
-            confirmNo.addEventListener('click', () => {
-                pendingAddToCart = null;
-                confirmationPopup.style.display = 'none';
-            });
-
-            confirmationPopup.addEventListener('click', (e) => {
-                if (e.target === confirmationPopup) {
-                    pendingAddToCart = null;
-                    confirmationPopup.style.display = 'none';
-                }
-            });
-
-            document.getElementById('showCart').addEventListener('click', () => {
-                menuView.style.display = 'none';
-                cartView.style.display = 'block';
-                renderCart();
-            });
-
-            document.getElementById('backToMenu').addEventListener('click', () => {
-                cartView.style.display = 'none';
-                menuView.style.display = 'block';
-            });
-        }
-
-        // --- Initialisierung ---
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM geladen, starte Initialisierung...');
-            initializeMenu();
+        // ===== EVENT LISTENER =====
+        document.getElementById('categoryFilter').addEventListener('change', (e) => {
+            currentCategory = e.target.value;
+            renderMenuItems();
         });
+
+        document.getElementById('specialWishesFilter').addEventListener('change', (e) => {
+            currentSpecialWish = e.target.value;
+            renderMenuItems();
+        });
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            currentSearch = e.target.value;
+            renderMenuItems();
+        });
+
+        document.getElementById('showCart').addEventListener('click', showCartView);
+        document.getElementById('backToMenu').addEventListener('click', showMenuView);
+        document.getElementById('closePopup').addEventListener('click', closePopup);
+        document.getElementById('cartPopupBtn').addEventListener('click', addToCart);
+        document.getElementById('scrollToTopBtn').addEventListener('click', scrollToTop);
+
+        // Schließe Popup wenn außerhalb geklickt wird
+        mealPopup.addEventListener('click', (e) => {
+            if (e.target === mealPopup) {
+                closePopup();
+            }
+        });
+
+        // ===== INITIALISIERUNG =====
+        function init() {
+            // Restaurant Informationen setzen
+            document.getElementById('restaurantName').textContent = restaurantInfo.name;
+            document.getElementById('headerPhone').textContent = `📞 ${restaurantInfo.phone}`;
+            document.getElementById('footerRestaurantName').textContent = restaurantInfo.name;
+            document.getElementById('footerAddress').textContent = restaurantInfo.address;
+            document.getElementById('footerZipCity').textContent = `${restaurantInfo.zip} ${restaurantInfo.city}`;
+            document.getElementById('footerPhone').textContent = `📞 ${restaurantInfo.phone}`;
+            
+            // Menü initialisieren
+            renderMenuItems();
+            updateCartCount();
+            
+            // Scroll Event Listener
+            window.addEventListener('scroll', toggleScrollToTopButton);
+            
+            // Initial scroll button state
+            toggleScrollToTopButton();
+        }
+
+        // Starte die Anwendung
+        init();
     </script>
 </body>
 </html>
