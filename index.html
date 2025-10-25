@@ -205,7 +205,7 @@
 
         .tag.vegetarisch { background: #d1ecf1; color: #0c5460; }
         .tag.scharf { background: #f8d7da; color: #721c24; }
-        .tag.ohne-Schweinefleisch { background: #d4edda; color: #155724; }
+        .tag.ohne Schweinefleisch { background: #d4edda; color: #155724; }
         .tag.vegan { background: #e8f6f3; color: #0b5345; }
         .tag.laktosefrei { background: #fef9e7; color: #7d6608; }
 
@@ -769,6 +769,7 @@
                     <option value="all">Alle Sonderwünsche</option>
                     <option value="vegetarisch">Vegetarisch</option>
                     <option value="scharf">Scharf</option>
+                    <option value="ohne Schweinefleisch">Ohne Schweinefleisch</option>
                 </select>
             </div>
             <div class="control-item">
@@ -898,7 +899,7 @@
             deliveryAvailable: true
         };
 
-        // Menü Daten
+        // Menü Daten - AKTUALISIERT mit korrekten Daten aus der PDF
         const menuData = [
             {
                 id: 1,
@@ -906,12 +907,12 @@
                 name: "Pizza Margherita",
                 category: "pizza",
                 sizes: [
-                    { size: "Klein (22 cm)", price: 3.50, description: "22 cm" },
+                    { size: "Klein (25 cm)", price: 5.00, description: "25 cm" },
                     { size: "Groß (28 cm)", price: 6.00, description: "28 cm" }
                 ],
                 ingredients: ["Tomatensauce", "Käse", "Oregano"],
-                tags: ["vegetarisch"],
-                allergens: ["A", "F", "G", "J", "I", "H"],
+                tags: ["vegetarisch", "ohne Schweinefleisch"],
+                allergens: ["A", "F", "G", "J", "M"],
                 additives: ["2"]
             },
             {
@@ -920,61 +921,61 @@
                 name: "Pizza Salami",
                 category: "pizza",
                 sizes: [
-                    { size: "Klein (22 cm)", price: 5.00, description: "22 cm" },
-                    { size: "Groß (28 cm)", price: 7.00, description: "28 cm" }
+                    { size: "Klein (25 cm)", price: 5.00, description: "25 cm" },
+                    { size: "Groß (28 cm)", price: 6.00, description: "28 cm" }
                 ],
                 ingredients: ["Tomatensauce", "Käse", "Oregano", "Salami"],
                 tags: [],
-                allergens: ["A", "F", "G", "J", "I", "H"],
+                allergens: ["A", "F", "G", "J", "M"],
                 additives: ["1", "2", "3", "12"]
             },
             {
                 id: 3,
                 number: 79,
-                name: "Alla Tonno",
+                name: "Nudeln Alla Tonno",
                 category: "nudeln",
                 price: 7.00,
                 ingredients: ["Thunfisch", "Knoblauch", "Peperoni", "Tomaten-Sahnesauce"],
-                tags: ["scharf"],
+                tags: ["scharf", "ohne Schweinefleisch"],
                 allergens: ["A", "C", "D", "L", "N", "G"],
                 additives: ["12"]
             },
             {
                 id: 4,
                 number: 80,
-                name: "Napoli",
+                name: "Nudeln Napoli",
                 category: "nudeln",
                 price: 7.00,
                 ingredients: ["Tomatensauce", "frischer Basilikum"],
-                tags: ["vegetarisch"],
+                tags: ["vegetarisch", "ohne Schweinefleisch"],
                 allergens: ["A", "C", "I", "J"],
                 additives: ["7"]
             },
             {
                 id: 5,
                 number: 60,
-                name: "Mista",
+                name: "Salat Mista",
                 category: "salate",
                 sizes: [
                     { size: "Standard", price: 4.00 },
                     { size: "Groß", price: 6.00 }
                 ],
-                ingredients: ["Bunter Salat mit Gurke"],
-                tags: ["vegetarisch"],
+                ingredients: ["Bunter Salat mit Gurken"],
+                tags: ["vegetarisch", "ohne Schweinefleisch"],
                 allergens: [],
                 additives: []
             },
             {
                 id: 6,
                 number: 61,
-                name: "Caprese",
+                name: "Salat Caprese",
                 category: "salate",
                 sizes: [
                     { size: "Standard", price: 5.00 },
                     { size: "Groß", price: 7.00 }
                 ],
                 ingredients: ["Frische Tomaten", "Mozzarella", "Basilikum"],
-                tags: ["vegetarisch"],
+                tags: ["vegetarisch", "ohne Schweinefleisch"],
                 allergens: [],
                 additives: []
             },
@@ -1002,7 +1003,7 @@
             }
         ];
 
-        // Allergen-Legende
+        // Allergen-Legende - AKTUALISIERT
         const allergenLegend = {
             'A': 'Glutenhaltiges Getreide',
             'B': 'Krebstiere', 
@@ -1020,7 +1021,7 @@
             'N': 'Weichtiere'
         };
 
-        // Zusatzstoff-Legende
+        // Zusatzstoff-Legende - AKTUALISIERT
         const additiveLegend = {
             '1': 'Farbstoff',
             '2': 'Konservierungsstoff',
@@ -1353,14 +1354,14 @@
         function showCartView() {
             menuView.style.display = 'none';
             cartView.style.display = 'block';
-            mainControls.style.display = 'none'; // Blende die 4 Filter-Felder aus
+            mainControls.style.display = 'none';
             renderCartItems();
         }
 
         function showMenuView() {
             cartView.style.display = 'none';
             menuView.style.display = 'block';
-            mainControls.style.display = 'flex'; // Zeige die 4 Filter-Felder wieder an
+            mainControls.style.display = 'flex';
         }
 
         function closePopup() {
